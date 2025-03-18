@@ -4,9 +4,9 @@ import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.util.Scanner;
 
-public class C_EditDist {
+public class B_EditDist {
 
-    String getDistanceEdinting(String one, String two) {
+    int getDistanceEdinting(String one, String two) {
         int m = one.length();
         int n = two.length();
 
@@ -19,6 +19,7 @@ public class C_EditDist {
         for (int j = 0; j <= n; j++) {
             dp[0][j] = j;
         }
+
 
         for (int i = 1; i <= m; i++) {
             for (int j = 1; j <= n; j++) {
@@ -36,32 +37,12 @@ public class C_EditDist {
             }
         }
 
-        StringBuilder operations = new StringBuilder();
-        int i = m, j = n;
-        while (i > 0 || j > 0) {
-            if (i > 0 && j > 0 && one.charAt(i - 1) == two.charAt(j - 1)) {
-                operations.insert(0, "#,"); // Копирование
-                i--;
-                j--;
-            } else if (i > 0 && dp[i][j] == dp[i - 1][j] + 1) {
-                operations.insert(0, "-" + one.charAt(i - 1) + ","); // Удаление
-                i--;
-            } else if (j > 0 && dp[i][j] == dp[i][j - 1] + 1) {
-                operations.insert(0, "+" + two.charAt(j - 1) + ","); // Вставка
-                j--;
-            } else if (i > 0 && j > 0 && dp[i][j] == dp[i - 1][j - 1] + 1) {
-                operations.insert(0, "~" + two.charAt(j - 1) + ","); // Замена
-                i--;
-                j--;
-            }
-        }
-
-        return operations.toString();
+        return dp[m][n];
     }
 
     public static void main(String[] args) throws FileNotFoundException {
-        InputStream stream = C_EditDist.class.getResourceAsStream("dataABC.txt");
-        C_EditDist instance = new C_EditDist();
+        InputStream stream = B_EditDist.class.getResourceAsStream("dataABC.txt");
+        B_EditDist instance = new B_EditDist();
         Scanner scanner = new Scanner(stream);
         System.out.println(instance.getDistanceEdinting(scanner.nextLine(), scanner.nextLine()));
         System.out.println(instance.getDistanceEdinting(scanner.nextLine(), scanner.nextLine()));

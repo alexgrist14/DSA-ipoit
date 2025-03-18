@@ -4,14 +4,13 @@ import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.util.Scanner;
 
-public class C_EditDist {
+public class A_EditDist {
 
-    String getDistanceEdinting(String one, String two) {
+    int getDistanceEdinting(String one, String two) {
         int m = one.length();
         int n = two.length();
 
         int[][] dp = new int[m + 1][n + 1];
-
 
         for (int i = 0; i <= m; i++) {
             dp[i][0] = i;
@@ -36,32 +35,12 @@ public class C_EditDist {
             }
         }
 
-        StringBuilder operations = new StringBuilder();
-        int i = m, j = n;
-        while (i > 0 || j > 0) {
-            if (i > 0 && j > 0 && one.charAt(i - 1) == two.charAt(j - 1)) {
-                operations.insert(0, "#,"); // Копирование
-                i--;
-                j--;
-            } else if (i > 0 && dp[i][j] == dp[i - 1][j] + 1) {
-                operations.insert(0, "-" + one.charAt(i - 1) + ","); // Удаление
-                i--;
-            } else if (j > 0 && dp[i][j] == dp[i][j - 1] + 1) {
-                operations.insert(0, "+" + two.charAt(j - 1) + ","); // Вставка
-                j--;
-            } else if (i > 0 && j > 0 && dp[i][j] == dp[i - 1][j - 1] + 1) {
-                operations.insert(0, "~" + two.charAt(j - 1) + ","); // Замена
-                i--;
-                j--;
-            }
-        }
-
-        return operations.toString();
+        return dp[m][n];
     }
 
     public static void main(String[] args) throws FileNotFoundException {
-        InputStream stream = C_EditDist.class.getResourceAsStream("dataABC.txt");
-        C_EditDist instance = new C_EditDist();
+        InputStream stream = A_EditDist.class.getResourceAsStream("dataABC.txt");
+        A_EditDist instance = new A_EditDist();
         Scanner scanner = new Scanner(stream);
         System.out.println(instance.getDistanceEdinting(scanner.nextLine(), scanner.nextLine()));
         System.out.println(instance.getDistanceEdinting(scanner.nextLine(), scanner.nextLine()));
